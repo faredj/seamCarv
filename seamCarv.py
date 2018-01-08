@@ -4,46 +4,114 @@ import cv2 as cv
 import Tkinter
 from Tkinter import *
 import Image, ImageTk
+import time
 
-def energyCal(img):
-    img = cv.GaussianBlur(img,(3,3),0)
-    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    imgX = cv.Sobel(img,cv.CV_64F,1,0,ksize=3)
-    imgY = cv.Sobel(img,cv.CV_64F,0,1,ksize=3)
-    img = cv.add(np.absolute(imgX), np.absolute(imgY))
-    return img
 
-def energyCal_1(img):
+def rearrangColorChannel(img):
+    b,g,r = cv.split(img)
+    return cv.merge((r,g,b))
+
+def cumVerticalEnergies(energies):
+    print "cumulating energies..."
+    height, width = energies.shape[0:2]
+    energiesCum = np.zeros((height, width), dtype=np.int)
+    for j in range(0, width):
+        energiesCum[0][j] = energies[0][j]
+
+    for i in range(1, height):
+        for j in range(0, width):
+            minEnergy = 0
+            if j-1<0:
+                minEnergy = min(energiesCum[i-1][j], energiesCum[i-1][j+1])
+            elif j+1>=width:
+                minEnergy = min(energiesCum[i-1][j], energiesCum[i-1][j-1])
+            else:
+                minEnergy = min(energiesCum[i-1][j-1], energiesCum[i-1][j], energiesCum[i-1][j+1])
+
+            energiesCum[i][j] = energies[i][j] + minEnergy
+    return energiesCum
+
+def computeCerSeam(energies):
+    print "compute seam..."
+    height, width = energies.shape[0:2]
+    verticalSeam = []
+    jIndex = np.argmin(energies[height-1])
+    verticalSeam.append((height-1,jIndex))
+    for i in range (height-2, -1, -1):
+        if jIndex - 1 < 0:
+            d = {energies[i][jIndex]:(i,jIndex),energies[i][jIndex+1]:(i,jIndex+1)}
+        elif jIndex + 2 > width:
+            d = {energies[i][jIndex-1]:(i,jIndex-1), energies[i][jIndex]:(i,jIndex)}
+        else:
+            d = {energies[i][jIndex-1]:(i,jIndex-1), energies[i][jIndex]:(i,jIndex),energies[i][jIndex+1]:(i,jIndex+1)}
+        coupleIndex = d.get(min(d))
+        verticalSeam.append(coupleIndex)
+        jIndex = coupleIndex[1]
+    return verticalSeam
+
+def pixelsEnergies(img):
+    print "energy of each pixel..."
     i=0
     height, width = img.shape[0:2]
+    energies = np.zeros((height, width), dtype=np.int)
     for i in range(0, height):
         for j in range(0, width):
-            topLeft = img[i-1][j-1] if i-1>=0 and j-1>=0 else 0
-            top  = img[i-1][j] if i-1>=0 else 0
-            topRight = img[i-1][j+1] if i-1>=0 and j+1<width else 0
+            topLeft = np.sum(img[i-1][j-1]) if i-1>=0 and j-1>=0 else 0
+            top  = np.sum(img[i-1][j]) if i-1>=0 else 0
+            topRight = np.sum(img[i-1][j+1]) if i-1>=0 and j+1<width else 0
 
-            bottomLeft = img[i+1][j-1] if i+1<height and j-1>=0 else 0
-            bottom = img[i+1][j] if i+1<height else 0
-            bottomRight = img[i+1][j+1] if i+1<height and j+1<width else 0
+            bottomLeft = np.sum(img[i+1][j-1]) if i+1<height and j-1>=0 else 0
+            bottom = np.sum(img[i+1][j]) if i+1<height else 0
+            bottomRight = np.sum(img[i+1][j+1]) if i+1<height and j+1<width else 0
 
-            left = img[i][j-1] if j-1>=0 else 0
-            right = img[i][j+1] if j+1<width else 0
+            left = np.sum(img[i][j-1]) if j-1>=0 else 0
+            right = np.sum(img[i][j+1]) if j+1<width else 0
 
             gX = topLeft + (2*top) + topRight - bottomLeft - (2*bottom) - bottomRight
             gY = topLeft + (2*left) + bottomLeft - topRight - (2*right) - bottomRight
-            img[i][j] = math.sqrt(gX**2 + gY**2)
+            energies[i][j] = math.sqrt(gX**2 + gY**2)
+    return energies
 
-            if i==0 and j==0:
-                print math.sqrt(gX**2 + gY**2)
+def removeVSeam(mat,seam):
+    print "remove Vseam..."
+    height, width = mat.shape[0:2]
+    imgnew = np.zeros((height, (width - 1), 3), np.uint8)
+    for p in seam:
+        y = p[0]
+        x = p[1]
+        imgnew[y, 0:x] = mat[y, 0:x]
+        imgnew[y, x:width-1] = mat[y, x+1:width]
+    return imgnew
 
-    return img
+def removeEnergyVSeam(mat,seam):
+    print "remove Vseam..."
+    height, width = mat.shape[0:2]
+    imgnew = np.zeros((height, (width - 1)), np.uint8)
+    for p in seam:
+        y = p[0]
+        x = p[1]
+        imgnew[y, 0:x] = mat[y, 0:x]
+        imgnew[y, x:width-1] = mat[y, x+1:width]
+    return imgnew
 
+##Main()
 if __name__ == '__main__':
-    img = cv.imread('ski-min.jpg', 0)
-    print energyCal_1(img)
-"""
+    start_time = time.time()
+    img = cv.imread('../repoDossier/pont.jpg')	#Reading Image
+
+    energiesOfEachPix = pixelsEnergies(img)	#Calculate energy of each pixel
+    print energiesOfEachPix
+    cumulativeEnergies = cumVerticalEnergies(energiesOfEachPix)	#Calculate cumulative energy
+    x=len(img[0])	
+    for i in range (1, 100):
+        seam = computeCerSeam(cumulativeEnergies)
+        img = removeVSeam(img, seam)
+        cumulativeEnergies = removeEnergyVSeam(cumulativeEnergies, seam)
+        print "step ",i
+    print "old size : ",x ,", new size : ", len(img[0])
     root = Tkinter.Tk()
-    img = Image.fromarray(img)
+    img = Image.fromarray(rearrangColorChannel(img))
     imgtk = ImageTk.PhotoImage(image=img) 
-    Tkinter.Label(root, image=imgtk).pack() 
-    root.mainloop()"""
+    Tkinter.Label(root, image=imgtk).pack()
+    print("--- %s seconds ---" % (time.time() - start_time))
+    root.mainloop()
