@@ -4,11 +4,12 @@ import math
 import cv2 as cv
 import Tkinter
 from Tkinter import *
-from PIL import Image, ImageTk
+import Image, ImageTk
 import time
 #lib for saving image as file
 import scipy.misc
 
+#En ce commit j'ai couriger mon id sur le client git
 
 def rearrangColorChannel(img):
 	b,g,r = cv.split(img)
@@ -202,5 +203,3 @@ if __name__ == '__main__':
 		root.mainloop()
 	else:
 		scipy.misc.imsave('outfileNew5.jpg', img)
-
-
