@@ -1,10 +1,7 @@
 import numpy as np
 import math
 import cv2 as cv
-
 import Image, ImageTk
-
-
 
 def rearrangColorChannel(img):
     b,g,r = cv.split(img)
@@ -68,6 +65,36 @@ def computeVericalSeam(energies):
         jIndex = coupleIndex[1]
     return verticalSeam
 
+def computeVericalSeamForDup(energies,seams):
+    height, width = energies.shape[0:2]
+    verticalSeam = []
+    startJIndex = []
+    for e in seams:
+        startJIndex.append(e[0][1])
+    
+    firstRow = (energies[height-1]).tolist()
+    minFounded = False
+    jIndex = firstRow.index(min(firstRow))
+    while (not minFounded):
+        if(jIndex in startJIndex):
+            firstRow[jIndex] = max(firstRow)
+            jIndex = firstRow.index(min(firstRow))
+        else:
+            minFounded = True
+
+    verticalSeam.append((height-1,jIndex))
+    for i in range (height-2, -1, -1):
+        if jIndex - 1 < 0:
+            d = {energies[i][jIndex]:(i,jIndex),energies[i][jIndex+1]:(i,jIndex+1)}
+        elif jIndex + 2 > width:
+            d = {energies[i][jIndex-1]:(i,jIndex-1), energies[i][jIndex]:(i,jIndex)}
+        else:
+            d = {energies[i][jIndex-1]:(i,jIndex-1), energies[i][jIndex]:(i,jIndex),energies[i][jIndex+1]:(i,jIndex+1)}
+        coupleIndex = d.get(min(d))
+        verticalSeam.append(coupleIndex)
+        jIndex = coupleIndex[1]
+    return verticalSeam
+
 def computeHorizontalSeam(energies):
     height, width = energies.shape[0:2]
     horizontalSeam = []
@@ -85,7 +112,37 @@ def computeHorizontalSeam(energies):
         iIndex = coupleIndex[0]
     return horizontalSeam
 
-def pixelsEnergies(img):
+def computeHorizontalSeamForDup(energies,seams):
+    height, width = energies.shape[0:2]
+    horizontalSeam = []
+    startJIndex = []
+    for e in seams:
+        startJIndex.append(e[0][0])
+    
+    firstRow = (energies[:,width-1]).tolist()
+    minFounded = False
+    iIndex = firstRow.index(min(firstRow))
+    while (not minFounded):
+        if(iIndex in startJIndex):
+            firstRow[iIndex] = max(firstRow)
+            iIndex = firstRow.index(min(firstRow))
+        else:
+            minFounded = True
+
+    horizontalSeam.append((iIndex,width-1))
+    for j in range (width-2, -1, -1):
+        if iIndex - 1 < 0:
+            d = {energies[iIndex][j]:(iIndex,j),energies[iIndex+1][j]:(iIndex+1,j)}
+        elif iIndex + 2 > height:
+            d = {energies[iIndex-1][j]:(iIndex-1,j), energies[iIndex][j]:(iIndex,j)}
+        else:
+            d = {energies[iIndex-1][j]:(iIndex-1,j), energies[iIndex][j]:(iIndex,j),energies[iIndex+1][j]:(iIndex+1,j)}
+        coupleIndex = d.get(min(d))
+        horizontalSeam.append(coupleIndex)
+        iIndex = coupleIndex[0]
+    return horizontalSeam
+
+def pixelsEnergies1(img):
     print "energy of each pixel..."
     i=0
     height, width = img.shape[0:2]
