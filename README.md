@@ -30,7 +30,7 @@ Pour que l'application fonctionne sur votre environnement les bibliothèques sui
 ####  -   NumPy
 [NumPy](http://www.numpy.org/) est une bibliothèque numérique , destinée à manipuler des matrices ou tableaux multidimensionnels ainsi que des fonctions mathématiques opérant sur ces tableaux.
 
- #### - OpenCV 
+#### - OpenCV 
 [OpenCV](https://opencv.org/) c'est  une bibliothèque de traitement d'image.
 
 #### - Tkinter 
