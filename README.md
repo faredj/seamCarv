@@ -73,7 +73,11 @@ Aprés réduction<br/>
 ![Maison](/uploads/ad4a8f433ee0c658c0cdc50b351d0235/maisonResized.jpg "Maison")<br/>
 
 ## Source
-
+[https://en.wikipedia.org/wiki/Seam_carving](https://en.wikipedia.org/wiki/Seam_carving)<br/>
+[http://cs.brown.edu/courses/cs129/results/proj3/rkuppig/](http://cs.brown.edu/courses/cs129/results/proj3/rkuppig/)<br/>
+[http://www.faculty.idc.ac.il/arik/SCWeb/imret/index.html](http://www.faculty.idc.ac.il/arik/SCWeb/imret/index.html)<br/>
+[https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_image_display/py_image_display.html](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_image_display/py_image_display.html)<br/>
+[https://www.pyimagesearch.com/2017/01/23/seam-carving-with-opencv-python-and-scikit-image/](https://www.pyimagesearch.com/2017/01/23/seam-carving-with-opencv-python-and-scikit-image/)
 ## Auteurs
 Hammache Faredj  
 Idir Sonia
