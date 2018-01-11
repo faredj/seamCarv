@@ -36,35 +36,32 @@ Pour que l'application fonctionne sur votre environnement les bibliothèques sui
 #### - Tkinter 
 [Tkinter](http://www.tkdocs.com/) : permet de créer des interfaces graphiques
 
-
 #### - Math
 permet d’avoir accès aux fonctions mathématiques
 
-### - #### - Math
+#### - PIL
 Est une bibliothèque pour la manipulation des images.
 
 ## Améliorations
-* Augmenter la taille de l’image en rajoutant des seams : En duplicant les seams on arrive à augmenter la taille de l’image (duplicateVSeam)
-* Fonction de calcul d’énergie en utilisant les filtres
+* Augmenter la taille de l’image en rajoutant des seams : En duplicant les seams on arrive à augmenter la taille de l’image, avant la duplication on calcul d'abord l'ensemble des seams puis on parcours les seams calculés et on les dupliquants.
+
+* Fonction de calcul d’énergie en utilisant les filtres : la fonction consiste à utiliser les filtre Gausian Blur et Sobel principalement pour faire apparaitre les contours ce qui permet d'avoir des energies différentes.
 
 ## Lancement de projet
-Lancer avec la commande :  python seamApp.py
+Lancer avec la commande :  *python seamApp.py*
 
 
-## Résultats
-![Origine](http://www.levif.be/medias/5774/2956429.jpg "Origine")  
-**♣ Image Origine**
+## Exemple d'exécution
+### - Réduction d'images
+Exemple 1 :
 
+Exemple 2 :
 
-![Origine](http://www.levif.be/medias/5774/2956429.jpg "Origine")  
-**♣ Image Effet 1**
-> Un mot !!
+Exemple 3 :
 
-![Origine](http://www.levif.be/medias/5774/2956429.jpg "Origine")  
 
 ## Source
 
 ## Auteurs
 Hammache Faredj  
-Idir Sonia  
-```
+Idir Sonia
