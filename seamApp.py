@@ -5,11 +5,7 @@ import cv2 as cv
 import tkFileDialog
 import seamCarv as sc
 
-
-def saveImage():
-    print "save image..."
-    imgTk
-
+#lancement du processus
 def LunchProcess():
     print "process started..."
     btnStart.config(state=DISABLED)
@@ -117,7 +113,6 @@ messageSize = Label(window, textvariable=labelText2).pack(padx=10,side = TOP)
 #Bare de menu
 menubar = Menu(window)
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Save", command=saveImage)
 filemenu.add_command(label="Exit", command=window.quit)
 menubar.add_cascade(label="File", menu=filemenu)
 

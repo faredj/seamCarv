@@ -53,31 +53,31 @@ Lancer avec la commande :  *python seamApp.py*
 
 ## Exemple d'exécution
 ### - Réduction d'images
-Exemple 1 :
+Exemple 1 :<br/>
 Originale<br/>
 ![Fleurs](/uploads/09a9f8053e94e0f7de9bcfbff041abf6/fleurs.jpg "Fleurs")<br/>
 Aprés réduction<br/>
 ![Fleurs](/uploads/851f2a31e7b21955754f252524e9e400/fleursResized.jpg "Fleurs")<br/>
 
-Exemple 2 :
+Exemple 2 :<br/>
 Originale<br/>
 ![Couche de soleil](/uploads/db5c5b4a50aa044b4541676ff78c4534/coucheSoleil.jpg "Couche de soleil")<br/>
 Aprés réduction<br/>
 ![Couche de soleil](/uploads/7fe4754ebc46fe6751c3257423ec47d9/coucheSoleilResized.jpg "Couche de soleil")<br/>
 
 ### - Agrandissement d'images
-Exemple 3 :
+Exemple 3 :<br/>
 Originale<br/>
 ![Maison](/uploads/6857f66e69f1749ea61c617e6b4e62bb/maison.jpg "Maison")<br/>
 Aprés réduction<br/>
 ![Maison](/uploads/ad4a8f433ee0c658c0cdc50b351d0235/maisonResized.jpg "Maison")<br/>
 
-## Source
+## Sources
 [https://en.wikipedia.org/wiki/Seam_carving](https://en.wikipedia.org/wiki/Seam_carving)<br/>
 [http://cs.brown.edu/courses/cs129/results/proj3/rkuppig/](http://cs.brown.edu/courses/cs129/results/proj3/rkuppig/)<br/>
 [http://www.faculty.idc.ac.il/arik/SCWeb/imret/index.html](http://www.faculty.idc.ac.il/arik/SCWeb/imret/index.html)<br/>
 [https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_image_display/py_image_display.html](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_gui/py_image_display/py_image_display.html)<br/>
 [https://www.pyimagesearch.com/2017/01/23/seam-carving-with-opencv-python-and-scikit-image/](https://www.pyimagesearch.com/2017/01/23/seam-carving-with-opencv-python-and-scikit-image/)
 ## Auteurs
-Hammache Faredj  
-Idir Sonia
+HAMMACHE Faredj  
+IDIR Sonia

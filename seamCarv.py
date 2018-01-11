@@ -7,7 +7,7 @@ def rearrangColorChannel(img):
     b,g,r = cv.split(img)
     return cv.merge((r,g,b))
 
-
+#calcul d'energie cumulative vertical
 def cumVerticalEnergies(energies):
     print "cumulating energies V..."
     height, width = energies.shape[0:2]
@@ -28,6 +28,7 @@ def cumVerticalEnergies(energies):
             energiesCum[i][j] = energies[i][j] + minEnergy
     return energiesCum
 
+#calcul d'energie cumulative horizontal
 def cumHorizontalEnergies(energies):
     print "cumulating energies H..."
     height, width = energies.shape[0:2]
@@ -48,6 +49,7 @@ def cumHorizontalEnergies(energies):
             energiesCum[i][j] = energies[i][j] + minEnergy
     return energiesCum
 
+#calcul du seam vertical
 def computeVericalSeam(energies):
     height, width = energies.shape[0:2]
     verticalSeam = []
@@ -65,6 +67,7 @@ def computeVericalSeam(energies):
         jIndex = coupleIndex[1]
     return verticalSeam
 
+#calcul du seam vertical pour duplication
 def computeVericalSeamForDup(energies,seams):
     height, width = energies.shape[0:2]
     verticalSeam = []
@@ -95,6 +98,7 @@ def computeVericalSeamForDup(energies,seams):
         jIndex = coupleIndex[1]
     return verticalSeam
 
+#calcul du seam horizontal
 def computeHorizontalSeam(energies):
     height, width = energies.shape[0:2]
     horizontalSeam = []
@@ -112,6 +116,7 @@ def computeHorizontalSeam(energies):
         iIndex = coupleIndex[0]
     return horizontalSeam
 
+##calcul du seam horizontal pour duplication
 def computeHorizontalSeamForDup(energies,seams):
     height, width = energies.shape[0:2]
     horizontalSeam = []
@@ -142,6 +147,7 @@ def computeHorizontalSeamForDup(energies,seams):
         iIndex = coupleIndex[0]
     return horizontalSeam
 
+#calcul d'energie des pixels
 def pixelsEnergies1(img):
     print "energy of each pixel..."
     i=0
@@ -165,6 +171,7 @@ def pixelsEnergies1(img):
             energies[i][j] = math.sqrt(gX**2 + gY**2)
     return energies
 
+#calcul d'energie des pixels en appliquant les filtre
 def pixelsEnergies2(img):
 	img = cv.GaussianBlur(img,(3,3),0)
 	img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -173,6 +180,7 @@ def pixelsEnergies2(img):
 	img = cv.add(np.absolute(imgX), np.absolute(imgY))
 	return img
 
+#suppression du seam vertical
 def removeVSeam(mat,seam):
     print "remove vert seam..."
     height, width = mat.shape[0:2]
@@ -183,6 +191,7 @@ def removeVSeam(mat,seam):
         imgnew[i] = np.delete(mat[i],(j),axis=0)
     return imgnew
 
+#suppression du seam horizontal
 def removeHSeam(mat,seam):
     print "remove hor seam..."
     height, width = mat.shape[0:2]
@@ -193,6 +202,7 @@ def removeHSeam(mat,seam):
         imgnew[:, j] = np.delete(mat[:, j], (i), axis=0)
     return imgnew
 
+#duplication du seam vertical
 def duplicateVSeam(mat,seam):
     print "duplicate vert seam..."
     height, width = mat.shape[0:2]
@@ -204,6 +214,7 @@ def duplicateVSeam(mat,seam):
         imgnew[i, j+1:width+1] = mat[i, j:width]
     return imgnew
 
+#duplication du seam horizontal
 def duplicateHSeam(mat,seam):
     print "duplicate hor seam..."
     height, width = mat.shape[0:2]
