@@ -1,1 +1,1 @@
-###Projet Python - Seamcarving
+# Projet Python - SeamCarving
