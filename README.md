@@ -54,11 +54,23 @@ Lancer avec la commande :  *python seamApp.py*
 ## Exemple d'exécution
 ### - Réduction d'images
 Exemple 1 :
+Originale<br/>
+![Fleurs](/uploads/09a9f8053e94e0f7de9bcfbff041abf6/fleurs.jpg "Fleurs")<br/>
+Aprés réduction<br/>
+![Fleurs](/uploads/851f2a31e7b21955754f252524e9e400/fleursResized.jpg "Fleurs")<br/>
 
 Exemple 2 :
+Originale<br/>
+![Couche de soleil](/uploads/db5c5b4a50aa044b4541676ff78c4534/coucheSoleil.jpg "Couche de soleil")<br/>
+Aprés réduction<br/>
+![Couche de soleil](/uploads/7fe4754ebc46fe6751c3257423ec47d9/coucheSoleilResized.jpg "Couche de soleil")<br/>
 
+### - Agrandissement d'images
 Exemple 3 :
-
+Originale<br/>
+![Maison](/uploads/6857f66e69f1749ea61c617e6b4e62bb/maison.jpg "Maison")<br/>
+Aprés réduction<br/>
+![Maison](/uploads/ad4a8f433ee0c658c0cdc50b351d0235/maisonResized.jpg "Maison")<br/>
 
 ## Source
 
