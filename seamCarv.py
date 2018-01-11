@@ -1,10 +1,9 @@
 import numpy as np
 import math
 import cv2 as cv
-import Tkinter
-from Tkinter import *
+
 import Image, ImageTk
-import time
+
 
 
 def rearrangColorChannel(img):
@@ -122,10 +121,9 @@ def removeVSeam(mat,seam):
     height, width = mat.shape[0:2]
     imgnew = np.zeros((height, (width - 1), 3), np.uint8)
     for p in seam:
-        y = p[0]
-        x = p[1]
-        imgnew[y, 0:x] = mat[y, 0:x]
-        imgnew[y, x:width-1] = mat[y, x+1:width]
+        i = p[0]
+        j = p[1]
+        imgnew[i] = np.delete(mat[i],(j),axis=0)
     return imgnew
 
 def removeHSeam(mat,seam):
@@ -133,18 +131,29 @@ def removeHSeam(mat,seam):
     height, width = mat.shape[0:2]
     imgnew = np.zeros(((height-1), width, 3), np.uint8)
     for p in seam:
-        y = p[0]
-        x = p[1]
-        imgnew[0:y, x] = mat[0:y, x]
-        imgnew[y:height-1, x] = mat[y+1:height, x]
+        i = p[0]
+        j = p[1]
+        imgnew[:, j] = np.delete(mat[:, j], (i), axis=0)
     return imgnew
 
-def removeEnergyVSeam(mat,seam):
+def duplicateVSeam(mat,seam):
+    print "duplicate vert seam..."
     height, width = mat.shape[0:2]
-    imgnew = np.zeros((height, (width - 1)), np.uint8)
+    imgnew = np.zeros((height, (width + 1), 3), np.uint8)
     for p in seam:
-        y = p[0]
-        x = p[1]
-        imgnew[y, 0:x] = mat[y, 0:x]
-        imgnew[y, x:width-1] = mat[y, x+1:width]
+        i = p[0]
+        j = p[1]
+        imgnew[i, 0:j+1] = mat[i, 0:j+1]
+        imgnew[i, j+1:width+1] = mat[i, j:width]
+    return imgnew
+
+def duplicateHSeam(mat,seam):
+    print "duplicate hor seam..."
+    height, width = mat.shape[0:2]
+    imgnew = np.zeros(((height+1), width, 3), np.uint8)
+    for p in seam:
+        i = p[0]
+        j = p[1]
+        imgnew[0:i+1, j] = mat[0:i+1, j]
+        imgnew[i+1:height+1, j] = mat[i:height, j]
     return imgnew

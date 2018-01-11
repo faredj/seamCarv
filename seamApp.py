@@ -30,7 +30,11 @@ def LunchProcess():
             imgTmp = sc.removeVSeam(imgTmp, seamVertival)
     elif (newWidth > img.width):#duplication de seam Horizontaux
         nbIteration = newWidth - img.width
-        print "duplication"
+        for i in range (1, nbIteration):
+            energiesOfEachPix = sc.pixelsEnergies2(imgTmp)
+            cumulativeEnergies = sc.cumVerticalEnergies(energiesOfEachPix)
+            seamVertival = sc.computeVericalSeam(cumulativeEnergies)
+            imgTmp = sc.duplicateVSeam(imgTmp, seamVertival)
     else:
         pass
     
@@ -43,10 +47,19 @@ def LunchProcess():
             imgTmp = sc.removeHSeam(imgTmp, seamVertival)
     elif (newHeight > img.height):#duplication de seam Verticaux
         nbIteration = newHeight - img.height
+        for i in range (1, nbIteration):
+            energiesOfEachPix = sc.pixelsEnergies2(imgTmp)
+            cumulativeEnergies = sc.cumHorizontalEnergies(energiesOfEachPix)
+            seamVertival = sc.computeHorizontalSeam(cumulativeEnergies)
+            imgTmp = sc.duplicateHSeam(imgTmp, seamVertival)
+    else:
+        pass
 
-    
-    img2 = Image.fromarray(imgTmp)
+    img2 = Image.fromarray(sc.rearrangColorChannel(imgTmp))
+    print img2.height
+    print img2.width
     imgTk2 = ImageTk.PhotoImage(image = img2)
+    window.geometry(str(imgTk2.width())+"x"+str(imgTk2.height()))
     panel.configure(image=imgTk2)
     panel.image = imgTk2
     
@@ -93,9 +106,9 @@ filemenu.add_command(label="Exit", command=window.quit)
 menubar.add_cascade(label="File", menu=filemenu)
 
 #Affichage de l'image la premiere fois
-path = "/home/faredj/Bureau/pyth/repoDossier/loutres.jpg"
+path = "/home/faredj/Bureau/pyth/repoDossier/ski-mid.jpg"
 imgArray = cv.imread(path)
-img = Image.fromarray(imgArray)
+img = Image.fromarray(sc.rearrangColorChannel(imgArray))
 imgTk = ImageTk.PhotoImage(image = img)
 panel = Label(window, image = imgTk)
 panel.pack()
